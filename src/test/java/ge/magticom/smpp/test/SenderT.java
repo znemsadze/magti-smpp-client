@@ -32,13 +32,13 @@ public class SenderT {
         smsLogica.submitMessageSimple(-22334455,"599XXXXXX","pitalo Message","Pitalo",0,1,false);
         /*Send Unicode Message
         * */
-        smsLogica.submitMessageSimple(-22334456,"599XXXXXX","pitalo მესიჯი","Pitalo",1,1,false);
+        smsLogica.submitMessageSimple(-22334456,"555XXXXXX","pitalo მესიჯი","Pitalo",1,1,false);
         /*send flash message
         * */
-        smsLogica.submitMessageSimple(-22334458,"599XXXXXX","pitalo flash message","Pitalo",1,1,true);
+        smsLogica.submitMessageSimple(-22334458,"593XXXXXX","pitalo flash message","Pitalo",1,1,true);
         /*Send unicode flash Message
         * */
-        smsLogica.submitMessageSimple(-22334457,"599XXXXXXX","pitalo flash მესიჯი","Pitalo",1,1,true);
+        smsLogica.submitMessageSimple(-22334457,"591XXXXXXX","pitalo flash მესიჯი","Pitalo",1,1,true);
 
     }
 
