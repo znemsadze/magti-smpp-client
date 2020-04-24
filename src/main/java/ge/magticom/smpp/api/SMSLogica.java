@@ -188,7 +188,7 @@ public class SMSLogica extends Thread {
         }
         try {
             UnbindResp response = iSession.unbind();
-            logger.info("Response unbinded " + response.debugString());
+            logger.info("Response unbinded " + response);
         } catch (Exception ex) {
             logger.info( "Unbind failed", ex);
         }
@@ -198,7 +198,6 @@ public class SMSLogica extends Thread {
         } catch (Exception ex) {
             logger.info( "Close connection failed", ex);
         }
-
         iReceiver = null;
         logger.info("Unbinding finished!");
 
