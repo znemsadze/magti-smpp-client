@@ -200,7 +200,6 @@ public class SMSLogica extends Thread {
         }
         iReceiver = null;
         logger.info("Unbinding finished!");
-
     }
 
     synchronized public void submitMessage(int aSessionID, int aSubscriberID, String aPhone, String aMessage)
