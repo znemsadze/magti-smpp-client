@@ -46,7 +46,6 @@ public class ListenerRunnable implements Runnable {
             em = emf.createEntityManager();
             while (!stopLoop) {
                 try {
-                    smsLogica.sendEnquire();
                     handleIncomingMessages();
                 } catch (Exception e) {
                     try {
@@ -77,15 +76,15 @@ public class ListenerRunnable implements Runnable {
     }
 
     private synchronized void handleIncomingMessages() throws Exception {
-        if (smsLogica == null || iReceiver == null || smsLogica.iSession == null) {
+        if (smsLogica == null || iReceiver == null ||
+                smsLogica.iSession == null || !smsLogica.iSession.isBound()
+                || !smsLogica.iSession.isOpened()) {
+            assert smsLogica != null;
             if (smsLogica.iWasConnected)
-                try {
-                    Thread.sleep(90000);
-                } catch (InterruptedException intex) {
-                    intex.printStackTrace();
-                }
-            smsLogica.setConnected(false);
+                smsLogica.setConnected(false);
             smsLogica.reBind();
+        } else {
+            smsLogica.sendEnquire();
         }
         int c = iReceiver.getWaitingCount();
         if (c > 0) {

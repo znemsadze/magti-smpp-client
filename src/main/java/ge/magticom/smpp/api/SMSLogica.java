@@ -114,9 +114,7 @@ public class SMSLogica extends Thread {
 
     synchronized public void sendEnquire() throws Exception {
         EnquireLink msg = new EnquireLink();
-
         msg.setSequenceNumber(getNextSequenceID());
-
         iSession.enquireLink(msg);
         logger.info("Sent EnquireLink. threadId="+Thread.currentThread().getId()+"ipaddress="+iSession.getConnection().getAddress());
     }
@@ -133,12 +131,10 @@ public class SMSLogica extends Thread {
     }
 
     synchronized public void reBind() throws Exception {
-
         logger.info(myutils.dateToStrTm(Calendar.getInstance().getTime())+"================================(Re)binding..." + Thread.currentThread().getId());
         if (iReceiver != null || iSession != null) {
             logger.info(myutils.dateToStrTm(Calendar.getInstance().getTime())+"Already bound - unbinding...start"+iSession.getConnection().getAddress());
             unBind();
-
             logger.info(myutils.dateToStrTm(Calendar.getInstance().getTime())+"Already bound - unbinding...end"+iSession.getConnection().getAddress());
 
             logger.info("Waiting 90 sec...");
@@ -149,34 +145,25 @@ public class SMSLogica extends Thread {
             }
             logger.info("Waiting comeplete...");
         }
-
-        BindRequest request = null;
-        BindResponse response = null;
-
+        BindRequest request  ;
+        BindResponse response  ;
         request = new BindTransciever();
-
         logger.info("Establishing TCP connection to " + (isFixSender?iSMSCFPort:iSMSCPort )+ ":" + (isFixSender?iSMSCFPort:iSMSCPort));
         TCPIPConnection connection = new TCPIPConnection(iSMSCAddr, (isFixSender?iSMSCFPort:iSMSCPort));
         connection.setReceiveTimeout( 20*1000);
         logger.info("Connected to SMSC.");
-
         iSession = new Session(connection);
-
         logger.info(iSMSCUser + "  " + iSMSCPassword + "  " + iSystemType + "   " + iSourcePhoneNumber);
-
         // set values
         request.setSystemId(iSMSCUser);
         request.setPassword(iSMSCPassword);
         request.setSystemType(iSystemType);
         request.setInterfaceVersion((byte) 0x34);
-
         request.setAddressRange((byte) 1, (byte) 1, iSourcePhoneNumber);
         // send the request
         iReceiver = new SMSReceiver(iSession);
         response = iSession.bind(request, iReceiver);
-
         logger.info("Bind response: " + response.debugString());
-
         if (response.getCommandStatus() != Data.ESME_ROK) {
             logger.info("Bind failed!");
             iReceiver = null;
@@ -185,10 +172,9 @@ public class SMSLogica extends Thread {
             iWasConnected = true;
             setConnected(true);
         }
-
     }
 
-    public void unBind() throws Exception {
+    public void unBind()  {
         logger.info("Unbinding... ");
         setConnected(false);
 
@@ -197,10 +183,9 @@ public class SMSLogica extends Thread {
             // return;
         }
 
-        if (iSession.getReceiver().isReceiver()) {
+        if (iSession!=null && iSession.getReceiver()!=null && iSession.getReceiver().isReceiver()) {
             logger.info("Stopping receiver...");
         }
-
         try {
             UnbindResp response = iSession.unbind();
             logger.info("Response unbinded " + response.debugString());
