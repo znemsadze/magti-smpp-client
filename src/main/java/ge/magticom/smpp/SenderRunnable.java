@@ -2,7 +2,8 @@ package ge.magticom.smpp;
 
 import ge.magticom.smpp.api.SMSLogica;
 import ge.magticom.smpp.model.SmsQueue;
-import ge.magticom.smpp.utils.Lm;
+import org.apache.log4j.Logger;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -16,18 +17,12 @@ import java.util.List;
  * Sender Runnable Class
  */
 public class SenderRunnable implements Runnable {
-
-
+    Logger logger=Logger.getLogger(SenderRunnable.class);
     private SMSLogica smsLogica;
-
-
     private EntityManagerFactory emf = null;
     private EntityManager em = null;
-
     private static final Long syncFlag = 1L;
-
     private Boolean stopLoop = false;
-
 
     public SenderRunnable() {
     }
@@ -54,7 +49,7 @@ public class SenderRunnable implements Runnable {
                 } catch (Exception e) {
                     e.printStackTrace();
 
-                    Lm.log().info("Sender error" + e.getMessage());
+                    logger.info("Sender error" + e.getMessage());
                     try {
                         Thread.sleep(3000);
                         if (em != null) {
@@ -112,7 +107,7 @@ public class SenderRunnable implements Runnable {
      */
     private void updateStatus(List<SmsQueue> smsQueueIds, Long statusId) {
         String updateSql = String.format(Q_UPDATE_SMS_QUEUE_STATUS, getMessageIdsFromList(smsQueueIds));
-        Lm.log().info(updateSql);
+        logger.info(updateSql);
         em.getTransaction().begin();
         em.createNativeQuery(updateSql)
                 .setParameter(1, statusId)
@@ -154,7 +149,7 @@ public class SenderRunnable implements Runnable {
         if(smsQueues.size()==0){
             try {
                 Thread.sleep(5000);
-                Lm.log().info("No messages For Send ===== waiting fo 5 second");
+                logger.info("No messages For Send ===== waiting fo 5 second");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

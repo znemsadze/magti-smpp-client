@@ -3,10 +3,9 @@ package ge.magticom.smpp;
 import ge.magticom.smpp.api.SMSLogica;
 import ge.magticom.smpp.api.SMSReceiver;
 import ge.magticom.smpp.model.SmsQueue;
-import ge.magticom.smpp.utils.Lm;
+import org.apache.log4j.Logger;
 import org.smpp.ServerPDUEvent;
 import org.smpp.pdu.*;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -17,6 +16,8 @@ import javax.persistence.Persistence;
  *
  */
 public class ListenerRunnable implements Runnable {
+
+    Logger logger=Logger.getLogger(ListenerRunnable.class);
 
     private SMSLogica smsLogica;
     private SMSReceiver iReceiver;
@@ -64,7 +65,7 @@ public class ListenerRunnable implements Runnable {
                         e1.printStackTrace();
                     }
                     e.printStackTrace();
-                    Lm.log().info(e.getMessage());
+                    logger.info(e.getMessage());
                 }
             }
         } finally {
@@ -76,9 +77,7 @@ public class ListenerRunnable implements Runnable {
     }
 
     private synchronized void handleIncomingMessages() throws Exception {
-
         if (smsLogica == null || iReceiver == null || smsLogica.iSession == null) {
-
             if (smsLogica.iWasConnected)
                 try {
                     Thread.sleep(90000);
@@ -119,7 +118,7 @@ public class ListenerRunnable implements Runnable {
             }
             smsLogica.iLastCommReceived = System.currentTimeMillis();
         } else {
-            Lm.log().warning(Thread.currentThread().getId() + "Listener waiting for events 2 second");
+            logger.info(Thread.currentThread().getId() + "Listener waiting for events 2 second");
             Thread.sleep(2000);
         }
     }

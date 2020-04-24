@@ -35,7 +35,6 @@ public class ThreadManager {
 
     }
 
-
     private static ExecutorService pool = Executors.newFixedThreadPool(14, runnable -> {
         Thread thread = new Thread(runnable);
         thread.setName(String.format("sms-broadcast %s", thread.getId()));

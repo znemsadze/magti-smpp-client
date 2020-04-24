@@ -1,24 +1,24 @@
 package ge.magticom.smpp.api;
 
 
-import ge.magticom.smpp.utils.Lm;
 import ge.magticom.smpp.utils.myutils;
+import org.apache.log4j.Logger;
 import org.smpp.Data;
 import org.smpp.ServerPDUEvent;
 import org.smpp.Session;
 import org.smpp.TCPIPConnection;
 import org.smpp.pdu.*;
 import org.smpp.util.ByteBuffer;
-
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.Properties;
 import java.util.Queue;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.logging.Level;
 
 public class SMSLogica extends Thread {
+
+    Logger logger=Logger.getLogger(SMSLogica.class);
 
     public static Properties props;
     public static int Transmit = 0;
@@ -78,7 +78,7 @@ public class SMSLogica extends Thread {
         iSubmitInterval = Long.parseLong((String) props.get("SubmitInterval"));
         iEnquireInterval = 1;
         eventQueue = new LinkedList<>();
-        Lm.log().info("serverUser==" + Thread.currentThread().getId() + "==" + iSMSCAddr + ":" + iSMSCUser);
+        logger.info("serverUser==" + Thread.currentThread().getId() + "==" + iSMSCAddr + ":" + iSMSCUser);
     }
 
     private static String[] splitMessage(String value, int chunkLen) {
@@ -118,7 +118,7 @@ public class SMSLogica extends Thread {
         msg.setSequenceNumber(getNextSequenceID());
 
         iSession.enquireLink(msg);
-        Lm.log().finest("Sent EnquireLink. threadId="+Thread.currentThread().getId()+"ipaddress="+iSession.getConnection().getAddress());
+        logger.info("Sent EnquireLink. threadId="+Thread.currentThread().getId()+"ipaddress="+iSession.getConnection().getAddress());
     }
 
     public void shutdown() {
@@ -134,20 +134,20 @@ public class SMSLogica extends Thread {
 
     synchronized public void reBind() throws Exception {
 
-        Lm.log().info(myutils.dateToStrTm(Calendar.getInstance().getTime())+"================================(Re)binding..." + Thread.currentThread().getId());
+        logger.info(myutils.dateToStrTm(Calendar.getInstance().getTime())+"================================(Re)binding..." + Thread.currentThread().getId());
         if (iReceiver != null || iSession != null) {
-            Lm.log().info(myutils.dateToStrTm(Calendar.getInstance().getTime())+"Already bound - unbinding...start"+iSession.getConnection().getAddress());
+            logger.info(myutils.dateToStrTm(Calendar.getInstance().getTime())+"Already bound - unbinding...start"+iSession.getConnection().getAddress());
             unBind();
 
-            Lm.log().info(myutils.dateToStrTm(Calendar.getInstance().getTime())+"Already bound - unbinding...end"+iSession.getConnection().getAddress());
+            logger.info(myutils.dateToStrTm(Calendar.getInstance().getTime())+"Already bound - unbinding...end"+iSession.getConnection().getAddress());
 
-            Lm.log().info("Waiting 90 sec...");
+            logger.info("Waiting 90 sec...");
             try {
                 sleep(90000);
             } catch (InterruptedException intex) {
 
             }
-            Lm.log().info("Waiting comeplete...");
+            logger.info("Waiting comeplete...");
         }
 
         BindRequest request = null;
@@ -155,14 +155,14 @@ public class SMSLogica extends Thread {
 
         request = new BindTransciever();
 
-        Lm.log().fine("Establishing TCP connection to " + (isFixSender?iSMSCFPort:iSMSCPort )+ ":" + (isFixSender?iSMSCFPort:iSMSCPort));
+        logger.info("Establishing TCP connection to " + (isFixSender?iSMSCFPort:iSMSCPort )+ ":" + (isFixSender?iSMSCFPort:iSMSCPort));
         TCPIPConnection connection = new TCPIPConnection(iSMSCAddr, (isFixSender?iSMSCFPort:iSMSCPort));
         connection.setReceiveTimeout( 20*1000);
-        Lm.log().fine("Connected to SMSC.");
+        logger.info("Connected to SMSC.");
 
         iSession = new Session(connection);
 
-        Lm.log().info(iSMSCUser + "  " + iSMSCPassword + "  " + iSystemType + "   " + iSourcePhoneNumber);
+        logger.info(iSMSCUser + "  " + iSMSCPassword + "  " + iSystemType + "   " + iSourcePhoneNumber);
 
         // set values
         request.setSystemId(iSMSCUser);
@@ -175,10 +175,10 @@ public class SMSLogica extends Thread {
         iReceiver = new SMSReceiver(iSession);
         response = iSession.bind(request, iReceiver);
 
-        Lm.log().fine("Bind response: " + response.debugString());
+        logger.info("Bind response: " + response.debugString());
 
         if (response.getCommandStatus() != Data.ESME_ROK) {
-            Lm.log().severe("Bind failed!");
+            logger.info("Bind failed!");
             iReceiver = null;
         } else {
             iLastCommReceived = System.currentTimeMillis();
@@ -189,33 +189,33 @@ public class SMSLogica extends Thread {
     }
 
     public void unBind() throws Exception {
-        Lm.log().fine("Unbinding... ");
+        logger.info("Unbinding... ");
         setConnected(false);
 
         if (iReceiver == null) {
-            Lm.log().warning("Already unbounded - unable to unbound");
+            logger.info("Already unbounded - unable to unbound");
             // return;
         }
 
         if (iSession.getReceiver().isReceiver()) {
-            Lm.log().info("Stopping receiver...");
+            logger.info("Stopping receiver...");
         }
 
         try {
             UnbindResp response = iSession.unbind();
-            Lm.log().fine("Response unbinded " + response.debugString());
+            logger.info("Response unbinded " + response.debugString());
         } catch (Exception ex) {
-            Lm.log().log(Level.WARNING, "Unbind failed", ex);
+            logger.info( "Unbind failed", ex);
         }
 
         try {
             iSession.getConnection().close();
         } catch (Exception ex) {
-            Lm.log().log(Level.WARNING, "Close connection failed", ex);
+            logger.info( "Close connection failed", ex);
         }
 
         iReceiver = null;
-        Lm.log().info("Unbinding finished!");
+        logger.info("Unbinding finished!");
 
     }
 
@@ -235,10 +235,10 @@ public class SMSLogica extends Thread {
         try {
             iSession.submit(msg);
             if (iListener != null) {
-//				Lm.log().finest("Sending message to " + aPhone);
+//				logger.infost("Sending message to " + aPhone);
                 iListener.registerSequenceID(aSessionID, aSubscriberID, aPhone, msg.getSequenceNumber());
             } else {
-//                Lm.log().severe("Listener missing for SubmitSM!");
+//                logger.info("Listener missing for SubmitSM!");
             }
         } catch (Exception ex) {
             reBind();
