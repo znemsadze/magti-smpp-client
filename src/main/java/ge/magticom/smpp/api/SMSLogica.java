@@ -236,7 +236,8 @@ public class SMSLogica extends Thread {
         byte ton = 0x05;
         byte npi = 0x00;
         try {
-            int smsLen = (isGeo == 0) ? 150 : 50;
+            int smsLen = (isGeo == 0) ? 153 : 65;
+            int smsLenOne =(isGeo == 0) ? 160 : 70;
             if(isFlashMessage){
                 aMessage=from+"\n "+aMessage;
             }
@@ -255,7 +256,7 @@ public class SMSLogica extends Thread {
                 smsCnt = 1;
             }
             sleep(smsCnt * iSubmitInterval*(isFixSender?3:1));
-            if (aMessage.length() <= smsLen) {
+            if (aMessage.length() <= smsLenOne) {
                 SubmitSM msg = new SubmitSM();
                 msg.setSequenceNumber(uniId);
                 msg.setSourceAddr(ton, npi, from);
