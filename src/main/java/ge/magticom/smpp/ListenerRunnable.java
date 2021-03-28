@@ -20,7 +20,6 @@ public class ListenerRunnable implements Runnable {
     Logger logger=Logger.getLogger(ListenerRunnable.class);
 
     private SMSLogica smsLogica;
-    private SMSReceiver iReceiver;
     private String smsCenterId = "";
     private Boolean stopLoop = false;
     private EntityManager em;
@@ -40,7 +39,6 @@ public class ListenerRunnable implements Runnable {
     @Override
     public void run() {
         try {
-            iReceiver = smsLogica.iReceiver;
             smsCenterId = "C" + smsLogica.iSMSCAddr.substring(smsLogica.iSMSCAddr.length() - 3, smsLogica.iSMSCAddr.length());
             emf = Persistence.createEntityManagerFactory("chat-app");
             em = emf.createEntityManager();
@@ -59,7 +57,6 @@ public class ListenerRunnable implements Runnable {
                         em = emf.createEntityManager();
                         smsLogica.setConnected(false);
                         smsLogica.reBind();
-                        iReceiver = smsLogica.iReceiver;
                     } catch (Exception e1) {
                         e1.printStackTrace();
                     }
@@ -76,7 +73,7 @@ public class ListenerRunnable implements Runnable {
     }
 
     private synchronized void handleIncomingMessages() throws Exception {
-        if (smsLogica == null || iReceiver == null ||
+        if (smsLogica == null || smsLogica.iReceiver == null ||
                 smsLogica.iSession == null || !smsLogica.iSession.isBound()
                 || !smsLogica.iSession.isOpened()) {
             assert smsLogica != null;
@@ -86,10 +83,10 @@ public class ListenerRunnable implements Runnable {
         } else {
             smsLogica.sendEnquire();
         }
-        int c = iReceiver.getWaitingCount();
+        int c = smsLogica.iReceiver.getWaitingCount();
         if (c > 0) {
             for (int i = 0; i < c; i++) {
-                ServerPDUEvent e = iReceiver.getRequestEvent(100);
+                ServerPDUEvent e = smsLogica.iReceiver.getRequestEvent(100);
                 if (e != null) {
                     PDU pdu = e.getPDU();
                     if (pdu != null) {
