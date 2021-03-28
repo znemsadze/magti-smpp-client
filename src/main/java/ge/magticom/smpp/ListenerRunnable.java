@@ -1,7 +1,6 @@
 package ge.magticom.smpp;
 
 import ge.magticom.smpp.api.SMSLogica;
-import ge.magticom.smpp.api.SMSReceiver;
 import ge.magticom.smpp.model.SmsQueue;
 import org.apache.log4j.Logger;
 import org.smpp.ServerPDUEvent;
