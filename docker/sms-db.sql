@@ -32,3 +32,4 @@ values (3,'599443000',null,null,null,null,'Test mesage','test_a2p',1,0,0);
 insert into sms_queue(id, phone_number, send_date, message_id, delivery_date, param, sms_text, sender,  state_id, is_geo, no_delivery)
 values (6,'599443000',null,null,null,null,'Test mesage','test_a2p',1,0,0);
 
+
