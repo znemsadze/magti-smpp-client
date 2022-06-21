@@ -30,7 +30,7 @@ public class SenderRunnable implements Runnable {
 
     public SenderRunnable(EntityManager em, SMSLogica smsLogica) {
         if (em == null) {
-            this.emf = Persistence.createEntityManagerFactory("chat-app");
+            this.emf = Persistence.createEntityManagerFactory("sms-app");
             this.em = emf.createEntityManager();
         } else {
             this.em = em;
@@ -40,7 +40,7 @@ public class SenderRunnable implements Runnable {
 
     @Override
     public void run() {
-        emf = Persistence.createEntityManagerFactory("chat-app");
+        emf = Persistence.createEntityManagerFactory("sms-app");
         em = emf.createEntityManager();
         try {
             while (!stopLoop) {
@@ -58,7 +58,7 @@ public class SenderRunnable implements Runnable {
                         if (emf != null) {
                             emf.close();
                         }
-                        emf = Persistence.createEntityManagerFactory("chat-app");
+                        emf = Persistence.createEntityManagerFactory("sms-app");
                         em = emf.createEntityManager();
                     } catch (Exception e1) {
                         e1.printStackTrace();
@@ -78,13 +78,11 @@ public class SenderRunnable implements Runnable {
     }
 
 
-    private static final String Q_GET_ACTIVE_MESSAGES_FOR_SEND = "select  q.* ,ss.sender,i.sms_text ," +
-            "coalesce(i.is_geo,0) is_geo,coalesce(i.no_deliver,0) no_delivery from\n" +
-            "  sms_queue q ,\n" +
-            "  sms_info i,\n" +
-            "  sms_senders ss\n" +
-            "where i.id=q.sms_info_id and ss.id=i.sms_sender_id\n" +
-            "      and q.state_id=1 LIMIT 100";
+    private static final String Q_GET_ACTIVE_MESSAGES_FOR_SEND = "select\n" +
+            "        id, phone_number, send_date, message_id,\n" +
+            "        delivery_date, param, sms_text, sender,\n" +
+            "        state_id, is_geo, no_delivery\n" +
+            "      from sms_queue q  where     q.state_id=1 LIMIT 100";
 
     /**
      * method gets Synchronized Portion of phones where and parks as processing

@@ -83,7 +83,6 @@ public class SMSLogica extends Thread {
 
     private static String[] splitMessage(String value, int chunkLen) {
         int cnt = (value.length() % chunkLen == 0) ? (value.length() / chunkLen) : (value.length() / chunkLen + 1);
-
         String[] a = new String[cnt];
         int k = 0;
         while (!value.isEmpty()) {
@@ -136,12 +135,11 @@ public class SMSLogica extends Thread {
             logger.info(myutils.dateToStrTm(Calendar.getInstance().getTime())+"Already bound - unbinding...start"+iSession.getConnection().getAddress());
             unBind();
             logger.info(myutils.dateToStrTm(Calendar.getInstance().getTime())+"Already bound - unbinding...end"+iSession.getConnection().getAddress());
-
             logger.info("Waiting 90 sec...");
             try {
                 sleep(90000);
             } catch (InterruptedException intex) {
-
+                intex.printStackTrace();
             }
             logger.info("Waiting comeplete...");
         }

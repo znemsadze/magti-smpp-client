@@ -27,19 +27,18 @@ public class ListenerRunnable implements Runnable {
     public ListenerRunnable(SMSLogica smsLogica, EntityManager em) {
         this.smsLogica = smsLogica;
         if (em == null) {
-            this.emf = Persistence.createEntityManagerFactory("chat-app");
+            this.emf = Persistence.createEntityManagerFactory("sms-app");
             this.em = emf.createEntityManager();
         } else {
             this.em = em;
         }
-
     }
 
     @Override
     public void run() {
         try {
             smsCenterId = "C" + smsLogica.iSMSCAddr.substring(smsLogica.iSMSCAddr.length() - 3, smsLogica.iSMSCAddr.length());
-            emf = Persistence.createEntityManagerFactory("chat-app");
+            emf = Persistence.createEntityManagerFactory("sms-app");
             em = emf.createEntityManager();
             while (!stopLoop) {
                 try {
@@ -52,7 +51,7 @@ public class ListenerRunnable implements Runnable {
                         if (emf != null) {
                             emf.close();
                         }
-                        emf = Persistence.createEntityManagerFactory("chat-app");
+                        emf = Persistence.createEntityManagerFactory("sms-app");
                         em = emf.createEntityManager();
                         smsLogica.setConnected(false);
                         smsLogica.reBind();
@@ -103,7 +102,6 @@ public class ListenerRunnable implements Runnable {
                                     saveDelivery(req.getReceiptedMessageId(), SmsQueue.STATE_ID_SMS_CENTER_FAIL);
                                 }
                             }
-
                         } else if (pdu.isResponse() && pdu instanceof SubmitSMResp) {
                             SubmitSMResp res = (SubmitSMResp) pdu;
                             saveSubmitSm(res.getMessageId(), (long) res.getSequenceNumber());

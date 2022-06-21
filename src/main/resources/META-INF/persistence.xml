@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
-	<persistence-unit name="chat-app" transaction-type="RESOURCE_LOCAL">
+	<persistence-unit name="sms-app" transaction-type="RESOURCE_LOCAL">
 		<class>ge.magticom.smpp.model.SmsQueue</class>
-		<class>ge.magticom.smpp.model.SmsInfo</class>
-		<class>ge.magticom.smpp.model.SmsState</class>
-		<class>ge.magticom.smpp.model.SmsSenders</class>
 		<properties>
-    	<property name="hibernate.connection.url" value="jdbc:postgresql://YourHost:5432/toy-manager"/>
-		<property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
-		<property name="hibernate.connection.username" value="YourUser"/>
-		<property name="hibernate.connection.password" value="YourPassword"/>
-		<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
-		<property name="hibernate.temp.use_jdbc_metadata_defaults" value="false" />
-		<property name ="hibernate.show_sql" value = "true" />
+			<property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/sms"/>
+			<property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+			<property name="hibernate.connection.username" value="sms"/>
+			<property name="hibernate.connection.password" value="Defender1"/>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL82Dialect" />
+			<property name="hibernate.temp.use_jdbc_metadata_defaults" value="false" />
+			<property name ="hibernate.show_sql" value = "true" />
 		</properties>
 	</persistence-unit>
 </persistence>

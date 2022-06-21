@@ -7,7 +7,6 @@ import org.smpp.SmppObject;
 import org.smpp.pdu.PDU;
 import org.smpp.util.Queue;
 
-
 /**
  * Implements simple PDU listener which handles PDUs received from SMSC.
  * It puts the received requests into a queue and discards all received

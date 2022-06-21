@@ -16,25 +16,20 @@ public class SmsQueue {
     public static final Long STATE_ID_DELIVERRED = 4L;
     public static final Long STATE_ID_BLOCKED = 5L;
     public static final Long STATE_ID_SMS_CENTER_FAIL = 8L;
-
-
     public static final Long CHARGE_STATE_UNPRCESSED=0L;
     public static final Long CHARGE_STATE_CHARGED=1L;
     public static final Long CHARGE_STATE_CHARGE_FREE=2L;
-
     private long id;
     private String phoneNumber;
     private Timestamp sendDate;
     private String messageId;
     private Timestamp deliveryDate;
     private String param;
-    private Long smsInfoId;
     private Long stateId;
     private String smsText;
     private String sender;
     private Long isGeo;
     private Long noDelivery;
-
 
     @Id
     @Column(name = "id", nullable = false)
@@ -113,19 +108,15 @@ public class SmsQueue {
         return sender;
     }
 
-    @Basic
-    @Column(name = "sms_info_id")
-    public Long getSmsInfoId() {
-        return smsInfoId;
-    }
-
-    public void setSmsInfoId(Long smsInfoId) {
-        this.smsInfoId = smsInfoId;
-    }
-
     public void setSender(String sender) {
         this.sender = sender;
     }
+
+
+
+
+
+
 
     @Basic
     @Column(name =  "state_id")

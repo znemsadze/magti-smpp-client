@@ -1,0 +1,5 @@
+FROM postgres
+RUN rm /docker-entrypoint-initdb.d/sms-db.sql
+COPY sms-db.sql /docker-entrypoint-initdb.d/
+RUN chmod 0755 /docker-entrypoint-initdb.d/sms-db.sql
+

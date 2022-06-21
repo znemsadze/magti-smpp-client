@@ -29,18 +29,19 @@ public class SenderT {
     public void sendSms() throws Exception {
         /*Send Simple Message
         * */
-        smsLogica.submitMessageSimple(-22334455,"599XXXXXX","pitalo Message","Pitalo",0,1,false);
+        smsLogica.submitMessageSimple(-22334455,"599443000","pitalo Message","Pitalo",0,1,false);
         /*Send Unicode Message
         * */
-        smsLogica.submitMessageSimple(-22334456,"555XXXXXX","pitalo მესიჯი","Pitalo",1,1,false);
+        smsLogica.submitMessageSimple(-22334456,"599443000","pitalo მესიჯი","Pitalo",1,1,false);
         /*send flash message
         * */
-        smsLogica.submitMessageSimple(-22334458,"593XXXXXX","pitalo flash message","Pitalo",1,1,true);
+        smsLogica.submitMessageSimple(-22334458,"599443000","pitalo flash message","Pitalo",1,1,true);
         /*Send unicode flash Message
         * */
-        smsLogica.submitMessageSimple(-22334457,"591XXXXXXX","pitalo flash მესიჯი","Pitalo",1,1,true);
-
+        smsLogica.submitMessageSimple(-22334457,"599443000","pitalo flash მესიჯი","Pitalo",1,1,true);
     }
+
+
 
 
 
