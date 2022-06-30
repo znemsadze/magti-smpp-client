@@ -112,7 +112,7 @@ public class ListenerRunnable implements Runnable {
             smsLogica.iLastCommReceived = System.currentTimeMillis();
         } else {
             logger.info(Thread.currentThread().getId() + "Listener waiting for events 2 second");
-            Thread.sleep(20000);
+            Thread.sleep(2000);
         }
     }
 

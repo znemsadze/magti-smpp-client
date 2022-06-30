@@ -27,11 +27,14 @@ create table sms_queue(
 );
 
 insert into sms_queue(id, phone_number, send_date, message_id, delivery_date, param, sms_text, sender,  state_id, is_geo, no_delivery)
-values (32,'599443000',null,null,null,null,'vazrovneb mashasadame varsebob rene','test_a2p',1,0,0);
+values (61,'599443000',null,null,null,null,'vazrovneb mashasadame varsebob rene','test_a2p',1,0,0);
 
 insert into sms_queue(id, phone_number, send_date, message_id, delivery_date, param, sms_text, sender,  state_id, is_geo, no_delivery)
-values (12,'599443000',null,null,null,null,'zamtaria sicivea shemodgoma midid meshinia siciveisa zamtarshi rom icis sharshan ufro' ||
-                                           'sashineli civi qari qroda magram sharshan chemTan iyav sul ar meshinoda ','test_a2p',1,0,0);
+values (60,'599443000',null,null,null,null,'zamtaria sicivea shemodgoma midis meshinia sicivea zamtarshi rom ' ||
+                                           'icis sharshan ufro sashineli civi qari qroda magram sharshan chemTan' ||
+                                           ' iyav sul ar meshinoda zamTaria sicivea Semodgoma midismeSinia sicivisa',
+        'test_a2p',1,0,0);
 
-select * from sms_queue order by id desc;
+SELECT *from sms_queue order by id desc;
+
 
