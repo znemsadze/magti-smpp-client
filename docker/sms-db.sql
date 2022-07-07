@@ -26,23 +26,31 @@ create table sms_queue(
     no_delivery int4
 );
 
-insert into sms_queue(id, phone_number, send_date, message_id, delivery_date, param, sms_text, sender,  state_id, is_geo, no_delivery)
-values (100,'599443000',null,null,null,null,'vazrovneb mashasadame varsebob rene','test_a2p',1,0,0);
+do $$
+    declare
+        v_id int;
+    BEGIN
+        v_id:=205;
+        insert into sms_queue(id, phone_number, send_date, message_id, delivery_date, param, sms_text, sender,  state_id, is_geo, no_delivery)
+        values (v_id,'599443000',null,null,null,null,'vazrovneb mashasadame varsebob rene','test_a2p',1,0,0);
+        v_id:=v_id+1;
+        insert into sms_queue(id, phone_number, send_date, message_id, delivery_date, param, sms_text, sender,  state_id, is_geo, no_delivery)
+        values (v_id,'599443000',null,null,null,null,'zamtaria sicivea shemodgoma midis meshinia sicivea zamtarshi rom ' ||
+                                                    'icis sharshan ufro sashineli civi qari qroda magram sharshan chemTan' ||
+                                                    ' iyav sul ar meshinoda zamTaria sicivea Semodgoma midismeSinia sicivisa', 'test_a2p',1,0,0);
+        v_id:=v_id+1;
+        insert into sms_queue(id, phone_number, send_date, message_id, delivery_date, param, sms_text, sender,  state_id, is_geo, no_delivery)
+        values (v_id,'599443000',null,null,null,null,'ვაზროვნებ მაშასადამე ვარსებობ. "რენე"','test_a2p',1,1,0);
+        v_id:=v_id+1;
+        insert into sms_queue(id, phone_number, send_date, message_id, delivery_date, param, sms_text, sender,  state_id, is_geo, no_delivery)
+        values (v_id,'599443000',null,null,null,null,'ზამთარია სიცივეა ცივი ქარი ' ||
+                                                    'ქრის მეშინია სიცივისა ზამთარში რომ იცის შარშან უფრო საშინელი' ||
+                                                    ' ცივი ქარი ქროდა', 'test_a2p',1,1,0);
+END$$;
 
-insert into sms_queue(id, phone_number, send_date, message_id, delivery_date, param, sms_text, sender,  state_id, is_geo, no_delivery)
-values (101,'599443000',null,null,null,null,'zamtaria sicivea shemodgoma midis meshinia sicivea zamtarshi rom ' ||
-                                           'icis sharshan ufro sashineli civi qari qroda magram sharshan chemTan' ||
-                                           ' iyav sul ar meshinoda zamTaria sicivea Semodgoma midismeSinia sicivisa', 'test_a2p',1,0,0);
 
 
 
-insert into sms_queue(id, phone_number, send_date, message_id, delivery_date, param, sms_text, sender,  state_id, is_geo, no_delivery)
-values (102,'599443000',null,null,null,null,'ვაზროვნებ მაშასადამე ვარსებობ. "რენე"','test_a2p',1,1,0);
-
-insert into sms_queue(id, phone_number, send_date, message_id, delivery_date, param, sms_text, sender,  state_id, is_geo, no_delivery)
-values (103,'599443000',null,null,null,null,'ზამთარია სიცივეა ცივი ქარი ' ||
-                                           'ქრის მეშინია სიცივისა ზამთარში რომ იცის შარშან უფრო საშინელი' ||
-                                           ' ცივი ქარი ქროდა', 'test_a2p',1,1,0);
 SELECT *from sms_queue order by id desc;
 
 
