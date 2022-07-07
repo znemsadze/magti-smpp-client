@@ -27,20 +27,20 @@ create table sms_queue(
 );
 
 insert into sms_queue(id, phone_number, send_date, message_id, delivery_date, param, sms_text, sender,  state_id, is_geo, no_delivery)
-values (48,'599443000',null,null,null,null,'vazrovneb mashasadame varsebob rene','test_a2p',1,0,0);
+values (100,'599443000',null,null,null,null,'vazrovneb mashasadame varsebob rene','test_a2p',1,0,0);
 
 insert into sms_queue(id, phone_number, send_date, message_id, delivery_date, param, sms_text, sender,  state_id, is_geo, no_delivery)
-values (49,'599443000',null,null,null,null,'zamtaria sicivea shemodgoma midis meshinia sicivea zamtarshi rom ' ||
+values (101,'599443000',null,null,null,null,'zamtaria sicivea shemodgoma midis meshinia sicivea zamtarshi rom ' ||
                                            'icis sharshan ufro sashineli civi qari qroda magram sharshan chemTan' ||
                                            ' iyav sul ar meshinoda zamTaria sicivea Semodgoma midismeSinia sicivisa', 'test_a2p',1,0,0);
 
 
 
 insert into sms_queue(id, phone_number, send_date, message_id, delivery_date, param, sms_text, sender,  state_id, is_geo, no_delivery)
-values (50,'599443000',null,null,null,null,'ვაზროვნებ მაშასადამე ვარსებობ. "რენე"','test_a2p',1,1,0);
+values (102,'599443000',null,null,null,null,'ვაზროვნებ მაშასადამე ვარსებობ. "რენე"','test_a2p',1,1,0);
 
 insert into sms_queue(id, phone_number, send_date, message_id, delivery_date, param, sms_text, sender,  state_id, is_geo, no_delivery)
-values (51,'599443000',null,null,null,null,'ზამთარია სიცივეა ცივი ქარი ' ||
+values (103,'599443000',null,null,null,null,'ზამთარია სიცივეა ცივი ქარი ' ||
                                            'ქრის მეშინია სიცივისა ზამთარში რომ იცის შარშან უფრო საშინელი' ||
                                            ' ცივი ქარი ქროდა', 'test_a2p',1,1,0);
 SELECT *from sms_queue order by id desc;
