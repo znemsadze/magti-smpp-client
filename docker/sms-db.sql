@@ -51,6 +51,6 @@ END$$;
 
 
 
-select*  from sms_queue order by  send_date desc;
+select*  from sms_queue order by  id  desc;
 
 
