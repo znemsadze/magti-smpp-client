@@ -30,7 +30,7 @@ do $$
     declare
         v_id int;
     BEGIN
-        v_id:=205;
+        v_id:=25;
         insert into sms_queue(id, phone_number, send_date, message_id, delivery_date, param, sms_text, sender,  state_id, is_geo, no_delivery)
         values (v_id,'599443000',null,null,null,null,'vazrovneb mashasadame varsebob rene','test_a2p',1,0,0);
         v_id:=v_id+1;
@@ -51,6 +51,6 @@ END$$;
 
 
 
-SELECT *from sms_queue order by id desc;
+select*  from sms_queue order by  send_date desc;
 
 
