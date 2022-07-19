@@ -2,7 +2,9 @@ package ge.magticom.smpp;
 
 import ge.magticom.smpp.api.SMSLogica;
 import ge.magticom.smpp.model.SmsQueue;
+import ge.magticom.smpp.utils.myutils;
 import org.apache.log4j.Logger;
+import org.smpp.Data;
 import org.smpp.ServerPDUEvent;
 import org.smpp.pdu.*;
 import javax.persistence.EntityManager;
@@ -96,7 +98,23 @@ public class ListenerRunnable implements Runnable {
                             // Decode request
                             if (pdu instanceof DeliverSM) {
                                 DeliverSM req = ((DeliverSM) pdu);
-                                if (req.getMessageState() == 2) {
+                                String smsText = req.getShortMessage(Data.ENC_UTF16);
+                                logger.debug(smsText);
+                                logger.debug(req.getSourceAddr().getAddress());
+                                logger.debug(req.getDestAddr().getAddress());
+                                if (smsText!=null && smsText.equals(trans(smsText, 55))) {
+                                    smsText = req.getShortMessage(Data.ENC_UTF16);
+                                    logger.info(smsText);
+                                }
+                                if (smsText != null && smsText.length() > 0 && req.getSourceAddr().getAddress() != null &&
+                                        req.getSourceAddr() != null && req.getSourceAddr().getAddress().length() > 0 &&
+                                        req.getDestAddr() != null && req.getDestAddr().getAddress() != null
+                                        && req.getDestAddr().getAddress().length()>0
+                                ) {
+                                    logger.info(req.debugString());
+                                    saveMoSmsQueue(null , req.getSourceAddr().getAddress(),
+                                            req.getDestAddr().getAddress(), smsText);
+                                }else if (req.getMessageState() == 2) {
                                     saveDelivery(req.getReceiptedMessageId(), SmsQueue.STATE_ID_DELIVERRED);
                                 } else if (req.getMessageState() > 2) {
                                     saveDelivery(req.getReceiptedMessageId(), SmsQueue.STATE_ID_SMS_CENTER_FAIL);
@@ -133,6 +151,12 @@ public class ListenerRunnable implements Runnable {
     }
 
 
+    public void saveMoSmsQueue(String messageId, String fromPhone, String destUserIdentifier, String text) {
+        logger.info("======================================");
+        logger.info(messageId+" "+fromPhone+" "+ destUserIdentifier+" "+text+" ===============");
+        logger.info("=======================================");
+    }
+
     private static final String Q_MARK_SMS_AS_DELIVERED = "update sms_queue set state_id=? , " +
             "delivery_date=current_date WHERE message_id=? and delivery_date is null ";
 
@@ -152,4 +176,68 @@ public class ListenerRunnable implements Runnable {
         stopLoop = true;
     }
 
+
+    public static boolean strisemty(String s) {
+        try {
+            return ((s == null) || (s.trim().equals("")));
+        } catch (Exception e) {
+            return true;
+        }
+
+    }
+
+    public static String trans(String s, Integer v) {
+        if (strisemty(s))
+            return "";
+        StringBuilder sb = new StringBuilder(s);
+        StringBuilder sh1 = new StringBuilder();
+        StringBuilder sh2 = new StringBuilder();
+        switch (v) {
+            case 12:
+                sh1.insert(0, "ÀÁÂÃÄÅÆÈÉÊËÌÍÏÐÑÒÓÔÖ×ØÙÚÛÜÝÞßàáãä");
+                sh2.insert(0, "abgdevzTiklmnopJrstufqRySCcZwWxjh");
+                break;
+            case 21:
+                sh2.insert(0, "ÀÁÂÃÄÅÆÈÉÊËÌÍÏÐÑÒÓÔÖ×ØÙÚÛÜÝÞßàáãä");
+                sh1.insert(0, "abgdevzTiklmnopJrstufqRySCcZwWxjh");
+                break;
+            case 13:
+                sh1.insert(0, "ÀÁÂÃÄÅÆÈÉÊËÌÍÏÐÑÒÓÔÖ×ØÙÚÛÜÝÞßàáãä");
+                sh2.insert(0, "აბგდევზთიკლმნოპჟრსტუფქღყშჩცძწჭხჯჰ");
+                break;
+            case 31:
+                sh2.insert(0, "ÀÁÂÃÄÅÆÈÉÊËÌÍÏÐÑÒÓÔÖ×ØÙÚÛÜÝÞßàáãä");
+                sh1.insert(0, "აბგდევზთიკლმნოპჟრსტუფქღყშჩცძწჭხჯჰ");
+                break;
+            case 23:
+                sh1.insert(0, "abgdevzTiklmnopJrstufqRySCcZwWxjh");
+                sh2.insert(0, "აბგდევზთიკლმნოპჟრსტუფქღყშჩცძწჭხჯჰ");
+                break;
+            case 32:
+                sh2.insert(0, "abgdevzTiklmnopJrstufqRySCcZwWxjh");
+                sh1.insert(0, "აბგდევზთიკლმნოპჟრსტუფქღყშჩცძწჭხჯჰ");
+                break;
+            case 44:
+                sh1.insert(0, "აობვგღდჯძეჟზიკქყლმნპფრსთტუხცწჩჭშჰ");
+                sh2.insert(0, "ააგდეეზზზკლმნოოორსტუუქღყყჩცძძჭჭჯჰ");
+                break;
+            case 55:
+                sh1.insert(0, "აობვგღდჯძეჟზიკქყლმნპფრსთტუხცწჩჭშჰйцуекенгшщзхъфывпаролджэячсмитьбюЙЦКУЕГШЩЗХЪЖЭЛРПАЫВФЯЧСМИТЬБЮ");
+                sh2.insert(0, "abgdevzTiklmnopJrstufqRySCcZwWxjh______________________________________________________________");
+                break;
+            default:
+                break;
+        }
+
+        for (int i = 0; i < s.length(); i++) {
+            if (sh1.indexOf(s.substring(i, i + 1)) > -1) {
+                sb.replace(
+                        i,
+                        i + 1,
+                        sh2.substring(sh1.indexOf(sb.substring(i, i + 1)),
+                                sh1.indexOf(sb.substring(i, i + 1)) + 1));
+            }
+        }
+        return sb.toString();
+    }
 }
