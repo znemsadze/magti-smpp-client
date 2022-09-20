@@ -30,15 +30,17 @@ public class SenderT {
         /*Send Simple Message
         * */
         smsLogica.submitMessageSimple(-22334455,"599443000","pitalo Message","Pitalo",0,1,false);
+        smsLogica.submitMessageSimple(-22334452,"599443000","pitalo Message","Pitalo",0,1,false);
+        smsLogica.submitMessageSimple(-22334451,"599443000","pitalo Message","Pitalo",0,1,false);
         /*Send Unicode Message
         * */
-        smsLogica.submitMessageSimple(-22334456,"599443000","pitalo მესიჯი","Pitalo",1,1,false);
-        /*send flash message
-        * */
-        smsLogica.submitMessageSimple(-22334458,"599443000","pitalo flash message","Pitalo",1,1,true);
-        /*Send unicode flash Message
-        * */
-        smsLogica.submitMessageSimple(-22334457,"599443000","pitalo flash მესიჯი","Pitalo",1,1,true);
+//        smsLogica.submitMessageSimple(-22334456,"599443000","pitalo მესიჯი","Pitalo",1,1,false);
+//        /*send flash message
+//        * */
+//        smsLogica.submitMessageSimple(-22334458,"599443000","pitalo flash message","Pitalo",1,1,true);
+//        /*Send unicode flash Message
+//        * */
+//        smsLogica.submitMessageSimple(-22334457,"599443000","pitalo flash მესიჯი","Pitalo",1,1,true);
     }
 
 

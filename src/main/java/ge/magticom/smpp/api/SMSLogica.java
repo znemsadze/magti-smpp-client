@@ -239,7 +239,7 @@ public class SMSLogica extends Thread {
             if(isFlashMessage){
                 aMessage=from+"\n "+aMessage;
             }
-            String smsEnc = (isGeo == 0) ? Data.ENC_ASCII : Data.ENC_UTF16 ;
+            String smsEnc = (isGeo == 0) ? Data.ENC_GSM7BIT : Data.ENC_UTF16 ;
             int encLen = (isGeo == 0) ? 1 : 8;
             if(isFlashMessage ){
                 smsEnc= Data.ENC_UTF16;

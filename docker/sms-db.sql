@@ -26,11 +26,13 @@ create table sms_queue(
     no_delivery int4
 );
 
+
+delete from sms_queue;
 do $$
     declare
         v_id int;
     BEGIN
-        v_id:=155;
+        v_id:=195;
         insert into sms_queue(id, phone_number, send_date, message_id, delivery_date, param, sms_text, sender,  state_id, is_geo, no_delivery)
         values (v_id,'599443000',null,null,null,null,'vazrovneb mashasadame varsebob rene','test_a2p',1,0,0);
         v_id:=v_id+1;
@@ -48,9 +50,5 @@ do $$
                                                     ' ცივი ქარი ქროდა', 'test_a2p',1,1,0);
 END$$;
 
-
-
-
 select*  from sms_queue order by  id  desc;
-
 
