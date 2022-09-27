@@ -97,7 +97,7 @@ public class ListenerRunnable implements Runnable {
                             // Decode request
                             if (pdu instanceof DeliverSM) {
                                 DeliverSM req = ((DeliverSM) pdu);
-                                String smsText = req.getShortMessage(Data.ENC_UTF16);
+                                String smsText = req.getShortMessage(Data.ENC_UTF8);
                                 logger.debug(smsText);
                                 logger.debug(req.getSourceAddr().getAddress());
                                 logger.debug(req.getDestAddr().getAddress());
