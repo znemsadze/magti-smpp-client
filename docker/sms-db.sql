@@ -32,25 +32,23 @@ do $$
     declare
         v_id int;
     BEGIN
-        v_id:=215;
+        v_id:=300;
         insert into sms_queue(id, phone_number, send_date, message_id, delivery_date, param, sms_text, sender,  state_id, is_geo, no_delivery)
-        values (v_id,'599443000',null,null,null,null,'vazrovneb mashasadame varsebob rene','test_a2p',1,0,0);
+        values (v_id,'599961510',null,null,null,null,'vazrovneb mashasadame varsebob rene','adjarasport',1,0,0);
         v_id:=v_id+1;
         insert into sms_queue(id, phone_number, send_date, message_id, delivery_date, param, sms_text, sender,  state_id, is_geo, no_delivery)
-        values (v_id,'599443000',null,null,null,null,'zamtaria sicivea shemodgoma midis meshinia sicivea zamtarshi rom ' ||
+        values (v_id,'599961510',null,null,null,null,'zamtaria sicivea shemodgoma midis meshinia sicivea zamtarshi rom ' ||
                                                     'icis sharshan ufro sashineli civi qari qroda magram sharshan chemTan' ||
-                                                    ' iyav sul ar meshinoda zamTaria sicivea Semodgoma midismeSinia sicivisa', 'test_a2p',1,0,0);
+                                                    ' iyav sul ar meshinoda zamTaria sicivea Semodgoma midismeSinia sicivisa', 'adjarasport',1,0,0);
         v_id:=v_id+1;
         insert into sms_queue(id, phone_number, send_date, message_id, delivery_date, param, sms_text, sender,  state_id, is_geo, no_delivery)
-        values (v_id,'599443000',null,null,null,null,'ვაზროვნებ მაშასადამე ვარსებობ. "რენე"','test_a2p',1,1,0);
+        values (v_id,'599961510',null,null,null,null,'ვაზროვნებ მაშასადამე ვარსებობ. "რენე"','adjarasport',1,1,0);
         v_id:=v_id+1;
         insert into sms_queue(id, phone_number, send_date, message_id, delivery_date, param, sms_text, sender,  state_id, is_geo, no_delivery)
-        values (v_id,'599443000',null,null,null,null,'ზამთარია სიცივეა ცივი ქარი ' ||
+        values (v_id,'599961510',null,null,null,null,'ზამთარია სიცივეა ცივი ქარი ' ||
                                                     'ქრის მეშინია სიცივისა ზამთარში რომ იცის შარშან უფრო საშინელი' ||
-                                                    ' ცივი ქარი ქროდა', 'test_a2p',1,1,0);
+                                                    ' ცივი ქარი ქროდა', 'adjarasport',1,1,0);
 END$$;
 
-select * from sms_queue order by  id  desc;
-
-select * from sms_queue;
+select * from sms_queue order by id desc;
 

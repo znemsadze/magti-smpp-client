@@ -234,18 +234,17 @@ public class SMSLogica extends Thread {
         byte ton = 0x05;
         byte npi = 0x00;
         try {
-            int smsLen = (isGeo == 0) ? 153 : 65;
+            int smsLen = (isGeo == 0) ? 153 : 67;
             int smsLenOne =(isGeo == 0) ? 160 : 70;
             if(isFlashMessage){
                 aMessage=from+"\n "+aMessage;
             }
-            String smsEnc = (isGeo == 0) ? Data.ENC_GSM7BIT : Data.ENC_UTF16 ;
+            String smsEnc = (isGeo == 0) ? Data.ENC_GSM7BIT : Data.ENC_UTF16_BE ;
             int encLen = (isGeo == 0) ? 1 : 8;
             if(isFlashMessage ){
                 smsEnc= Data.ENC_UTF16;
                 encLen=24;
                 smsLen=60;
-
             }
             String smsparts[] = splitMessage(aMessage, smsLen);
             Integer smsCnt = smsparts.length;
