@@ -32,7 +32,7 @@ do $$
     declare
         v_id int;
     BEGIN
-        v_id:=300;
+        v_id:=310;
         insert into sms_queue(id, phone_number, send_date, message_id, delivery_date, param, sms_text, sender,  state_id, is_geo, no_delivery)
         values (v_id,'599961510',null,null,null,null,'vazrovneb mashasadame varsebob rene','adjarasport',1,0,0);
         v_id:=v_id+1;
