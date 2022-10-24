@@ -71,6 +71,10 @@ public class ListenerRunnable implements Runnable {
         }
     }
 
+    public static String getqMarkSmsAsDelivered() {
+        return Q_MARK_SMS_AS_DELIVERED;
+    }
+
     private synchronized void handleIncomingMessages() throws Exception {
         if (smsLogica == null || smsLogica.iReceiver == null ||
                 smsLogica.iSession == null || !smsLogica.iSession.isBound()
@@ -97,11 +101,15 @@ public class ListenerRunnable implements Runnable {
                             // Decode request
                             if (pdu instanceof DeliverSM) {
                                 DeliverSM req = ((DeliverSM) pdu);
-                                String smsText = req.getShortMessage(Data.ENC_UTF16);
-                                logger.debug(smsText);
+                                String smsText="";
                                 logger.debug(req.getSourceAddr().getAddress());
                                 logger.debug(req.getDestAddr().getAddress());
-                                if (smsText!=null &&   smsText.equals(trans(smsText, 55))) {
+                                int dataCoding=req.getDataCoding();
+                                logger.debug("dataCoding="+dataCoding);
+                                if ( dataCoding==8) {
+                                    smsText= req.getShortMessage(Data.ENC_UTF16);
+                                    logger.debug(smsText);
+                                }else {
                                     smsText = req.getShortMessage(Data.ENC_ASCII);
                                     logger.info(smsText);
                                 }
