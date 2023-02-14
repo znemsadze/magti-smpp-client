@@ -62,7 +62,10 @@ public class ListenerRunnable implements Runnable {
                     e.printStackTrace();
                     logger.info(e.getMessage());
                 }
+                Thread.sleep(2*1000);
             }
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         } finally {
             if (em != null) {
                 em.close();
