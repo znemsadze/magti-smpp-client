@@ -32,7 +32,7 @@ do $$
     declare
         v_id int;
     BEGIN
-        v_id:=40;
+        v_id:=8;
         insert into sms_queue(id, phone_number, send_date, message_id, delivery_date, param, sms_text, sender,  state_id, is_geo, no_delivery)
         values (v_id,'599443000',null,null,null,null,'vazrovneb mashasadame varsebob rene','adjaraspo',1,0,0);
 --         v_id:=v_id+1;
@@ -49,5 +49,8 @@ do $$
 --                                                     'ქრის მეშინია სიცივისა ზამთარში რომ იცის შარშან უფრო საშინელი' ||
 --                                                     ' ცივი ქარი ქროდა', 'adjaraspo',1,1,0);
 END$$;
+
+select *
+from sms_queue;
 
 
